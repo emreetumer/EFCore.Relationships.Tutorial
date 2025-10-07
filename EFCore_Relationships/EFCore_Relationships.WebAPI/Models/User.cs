@@ -1,4 +1,6 @@
-﻿namespace EFCore_Relationships.WebAPI.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace EFCore_Relationships.WebAPI.Models;
 
 public sealed class User
 {
@@ -10,7 +12,16 @@ public sealed class User
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string FullName => string.Join(" ", FirstName, LastName);
+    public object Information => new
+    {
+        InfoId = UserInformationId,
+        IdentityNumber = UserInformation?.IdentityNumber,
+        FullAddress = UserInformation?.FullAddress,
+    };
+
+    [JsonIgnore]
     public Guid UserInformationId { get; set; }
+    [JsonIgnore]
     public UserInformation? UserInformation { get; set; }
 }
 

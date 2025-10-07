@@ -6,3 +6,6 @@ Content-Type: application/json
   "identityNumber" : "11223344556",
   "fullAddress": "Kocaeli"
 }
+
+###
+GET https://localhost:7172/user-getall

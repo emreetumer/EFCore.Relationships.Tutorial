@@ -35,6 +35,12 @@ app.MapPost("user-create", (ApplicationDbContext context, UserCreateDto request)
     return Results.Ok(user);
 });
 
+app.MapGet("user-getall", (ApplicationDbContext context) =>
+{
+    var users = context.Users.Include(p => p.UserInformation).ToList();
+
+    return users;
+});
 
 
 app.Run();
