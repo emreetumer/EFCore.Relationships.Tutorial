@@ -12,8 +12,10 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserInformation>()
-            .HasIndex(x => x.UserId)
-            .IsUnique();
+        modelBuilder.Entity<User>()
+            .HasOne(p => p.UserInformation)
+            .WithOne()
+            .HasForeignKey<User>(p => p.UserInformationId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore_Relationships.WebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251007040248_mg1")]
+    [Migration("20251007043411_mg1")]
     partial class mg1
     {
         /// <inheritdoc />
@@ -44,7 +44,8 @@ namespace EFCore_Relationships.WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserInformationId");
+                    b.HasIndex("UserInformationId")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -63,13 +64,7 @@ namespace EFCore_Relationships.WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("UsersInformation");
                 });
@@ -77,9 +72,9 @@ namespace EFCore_Relationships.WebAPI.Migrations
             modelBuilder.Entity("EFCore_Relationships.WebAPI.Models.User", b =>
                 {
                     b.HasOne("EFCore_Relationships.WebAPI.Models.UserInformation", "UserInformation")
-                        .WithMany()
-                        .HasForeignKey("UserInformationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("EFCore_Relationships.WebAPI.Models.User", "UserInformationId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("UserInformation");
