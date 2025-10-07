@@ -37,7 +37,33 @@ app.MapPost("user-create", (ApplicationDbContext context, UserCreateDto request)
 
 app.MapGet("user-getall", (ApplicationDbContext context) =>
 {
-    var users = context.Users.Include(p => p.UserInformation).ToList();
+    //var users = context.Users.Include(p => p.UserInformation).ToList();
+
+    var users = context.Users
+    .Join(context.UsersInformation,
+    user => user.UserInformationId,
+    userInformation => userInformation.Id,
+    (user, userInformation) => new { user, userInformation })
+    .Select(p => new
+    {
+        Id = p.user.Id,
+        FullName = p.user.FullName,
+        IdentityNumber = p.userInformation.IdentityNumber,
+        FullAddress = p.userInformation.FullAddress
+    })
+    .ToList();
+
+    //var users = (from u in context.Users
+    //             join i in context.UsersInformation on
+    //             u.UserInformationId equals i.Id
+    //             select new
+    //             {
+    //                 Id = u.Id,
+    //                 FullName = u.FullName,
+    //                 IdentityNumber = i.IdentityNumber,
+    //                 FullAddress = i.FullAddress,
+    //                 Note = "this created by from"
+    //             }).ToList();
 
     return users;
 });
