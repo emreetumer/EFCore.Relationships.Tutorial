@@ -16,7 +16,6 @@ namespace EFCore_Relationships.WebAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FullAddress = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -41,19 +40,13 @@ namespace EFCore_Relationships.WebAPI.Migrations
                         name: "FK_Users_UsersInformation_UserInformationId",
                         column: x => x.UserInformationId,
                         principalTable: "UsersInformation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserInformationId",
                 table: "Users",
-                column: "UserInformationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UsersInformation_UserId",
-                table: "UsersInformation",
-                column: "UserId",
+                column: "UserInformationId",
                 unique: true);
         }
 

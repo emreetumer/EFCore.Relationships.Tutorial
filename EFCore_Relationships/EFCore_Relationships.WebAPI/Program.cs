@@ -1,4 +1,6 @@
 using EFCore_Relationships.WebAPI.Context;
+using EFCore_Relationships.WebAPI.Dtos;
+using EFCore_Relationships.WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +16,24 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 var app = builder.Build();
 //Middleware
 
+app.MapPost("user-create", (ApplicationDbContext context, UserCreateDto request) =>
+{
+    User user = new()
+    {
+        FirstName = request.FirstName,
+        LastName = request.LastName,
+        UserInformation = new()
+        {
+            IdentityNumber = request.IdentityNumber,
+            FullAddress = request.FullAddress,
+        }
+    };
 
+    context.Add(user);
+    context.SaveChanges();
+
+    return Results.Ok(user);
+});
 
 
 

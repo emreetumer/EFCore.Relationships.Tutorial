@@ -1,0 +1,8 @@
+POST https://localhost:7172/user-create
+Content-Type: application/json
+{
+  "firstName": "Emre",
+  "lastName": "Tümer",
+  "identityNumber" : "11223344556",
+  "fullAddress": "Kocaeli"
+}
